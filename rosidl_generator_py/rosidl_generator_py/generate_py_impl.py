@@ -19,9 +19,28 @@ from rosidl_cmake import convert_camel_case_to_lower_case_underscore
 from rosidl_cmake import expand_template
 from rosidl_cmake import get_newest_modification_time
 from rosidl_cmake import read_generator_arguments
-from rosidl_generator_c import primitive_msg_type_to_c
 from rosidl_parser import parse_message_file
 from rosidl_parser import parse_service_file
+
+
+def _primitive_msg_type_to_c(type_):
+    msg_type_to_c = {
+        'bool': 'bool',
+        'byte': 'uint8_t',
+        'char': 'signed char',
+        'float32': 'float',
+        'float64': 'double',
+        'uint8': 'uint8_t',
+        'int8': 'int8_t',
+        'uint16': 'uint16_t',
+        'int16': 'int16_t',
+        'uint32': 'uint32_t',
+        'int32': 'int32_t',
+        'uint64': 'uint64_t',
+        'int64': 'int64_t',
+        'string': 'rosidl_generator_c__String',
+    }
+    return msg_type_to_c[type_]
 
 
 def generate_py(generator_arguments_file, typesupport_impls):
@@ -54,7 +73,7 @@ def generate_py(generator_arguments_file, typesupport_impls):
     functions = {
         'constant_value_to_py': constant_value_to_py,
         'get_python_type': get_python_type,
-        'primitive_msg_type_to_c': primitive_msg_type_to_c,
+        'primitive_msg_type_to_c': _primitive_msg_type_to_c,
         'value_to_py': value_to_py,
         'convert_camel_case_to_lower_case_underscore': convert_camel_case_to_lower_case_underscore,
     }
